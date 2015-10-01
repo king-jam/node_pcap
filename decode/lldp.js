@@ -1,22 +1,38 @@
-var TLV = require("./lldp_tlv");
+var TLV = require("./lldp/lldp_tlv");
 
 function LLDP(emitter) {
-    this.emitter = emitter;
-    this.tlvArray = [];
+	this.emitter = emitter;
+	this.chassisTlv = undefined;
+	this.portIdTlv = undefined
+	this.ttlTlv = undefined;
+	this.optionalTlv = [];
 }
 
 LLDP.prototype.decode = function (raw_packet, offset) {
-    while(raw_packet.readUInt16BE(offset, true) != 0) {
-        currentTLVLength = (raw_packet.readUInt16BE(offset, true) & 0x01ff) + 2;
-        this.tlvArray.push(new TLV(this.emitter).decode (raw_packet, offset));
-        offset += currentTLVLength;
-    }
+	this.chassisTLV = new TLV(this.emitter).decode (raw_packet, offset);
+	offset += getTlvLength(raw_packet, offset);
+	this.portIdTLV = new TLV(this.emitter).decode (raw_packet, offset);
+	offset += getTlvLength(raw_packet, offset);
+	this.ttlTLV = new TLV(this.emitter).decode (raw_packet, offset);
+	offset += getTlvLength(raw_packet, offset);
+	while(raw_packet.readUInt16BE(offset, true) != 0) {
+		this.optionalTlv.push(new TLV(this.emitter).decode (raw_packet, offset));
+		offset += getTlvLength(raw_packet, offset);
+  }
 
-    if(this.emitter) { this.emitter.emit("lldp", this); }
-    return this;
+	if(this.emitter) { this.emitter.emit("lldp", this); }
+	return this;
+}
+
+var getTlvLength = function(raw_packet, offset) {
+	var tlvHeaderSize = 2;
+	length = (raw_packet.readUInt16BE(offset, true) & 0x01ff) + tlvHeaderSize;
+	return length;
 }
 
 LLDP.prototype.decoderName = "lldp";
 LLDP.prototype.eventsOnDecode = true;
+
+LLDP.prototype.toString() = function {}
 
 module.exports = LLDP;

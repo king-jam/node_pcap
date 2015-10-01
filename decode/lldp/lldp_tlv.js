@@ -1,3 +1,5 @@
+var types = require("./tlv_types");
+
 function TLV(emitter) {
 	this.emitter = emitter;
 	this.tlvType = undefined;
@@ -10,8 +12,12 @@ TLV.prototype.decode = function (raw_packet, offset) {
   // https://en.wikipedia.org/wiki/Link_Layer_Discovery_Protocol
   this.tlvType = (raw_packet.readUInt16BE(offset, true) & 0xfe00) >> 9;
   this.tlvLength = (raw_packet.readUInt16BE(offset, true) & 0x01ff);
-  this.payload = new Buffer(this.tlvLength);
-  this.payload.slice(raw_packet[offset+2],raw_packet[offset+this.tlvLength+2]);
+  var TlvDecoder = types[this.tlvType];
+  if(TlvDecoder == undefined) {
+    this.payload = "Unknown";
+  } else {
+    this.payload = new TlvDecoder().decode(raw_packet, offset, tlvLength);
+  }
   return this;
 }
 

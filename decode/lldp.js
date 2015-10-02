@@ -16,7 +16,7 @@ LLDP.prototype.decode = function (raw_packet, offset) {
 	this.ttlTLV = new TLV(this.emitter).decode (raw_packet, offset);
 	offset += getTlvLength(raw_packet, offset);
 	while(raw_packet.readUInt16BE(offset, true) != 0) {
-		this.optionalTlv.push(new TLV(this.emitter).decode (raw_packet, offset));
+		this.push(new TLV(this.emitter).decode (raw_packet, offset));
 		offset += getTlvLength(raw_packet, offset);
   }
 

@@ -16,7 +16,7 @@ TLV.prototype.decode = function (raw_packet, offset) {
   if(TlvDecoder == undefined) {
     this.payload = "Unknown";
   } else {
-    this.payload = new TlvDecoder().decode(raw_packet, offset, tlvLength);
+    this.payload = new TlvDecoder().decode(raw_packet, offset+2);
   }
   return this;
 }

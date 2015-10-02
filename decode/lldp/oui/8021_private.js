@@ -1,14 +1,12 @@
-var orgs = require("./oui/oui_types");
-
-function ORG() {
-	this.orgId = undefined;
+function IEEE_8021_PRIVATE() {
+	this.orgSubType = undefined;
   this.payload = undefined;
 }
 
-ORG.prototype.decode = function (raw_packet, offset) {
+IEEE_8021_PRIVATE.prototype.decode = function (raw_packet, offset) {
   // https://en.wikipedia.org/wiki/Type-length-value
   // https://en.wikipedia.org/wiki/Link_Layer_Discovery_Protocol
-  this.orgId = ((raw_packet.readUInt16BE(offset, true) << 8) || (raw_packet.readUInt16BE(offset+2, true) & 0xff00 >> 8));
+  this.orgSubType = (raw_packet.readUInt16BE(offset, true) & 0x00ff);
   var OrgDecoder = orgs[this.orgId];
   if(OrgDecoder == undefined) {
     this.payload = "Unknown";
@@ -19,4 +17,4 @@ ORG.prototype.decode = function (raw_packet, offset) {
   return this;
 }
 
-module.exports = ORG;
+module.exports = IEEE_8021_PRIVATE;

@@ -9,7 +9,7 @@ function init(){
   types[3] = require("./ttl");
   types[4] = require("./portDescription");
   types[5] = require("./systemName");
-  types[6] = require("./systemDesciption");
+  types[6] = require("./systemDescription");
   types[7] = require("./systemCaps");
   types[8] = require("./managementAddress");
   types[127] = require("./organization");

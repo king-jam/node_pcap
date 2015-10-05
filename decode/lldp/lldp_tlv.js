@@ -17,7 +17,7 @@ TLV.prototype.decode = function (raw_packet, offset) {
 		return this;
   } else {
 		var TlvDecoder = new TlvDecoderType()
-		TlvDecoder.decode(this, raw_packet, offset+2);
+		TlvDecoder.decode(this, raw_packet, offset+2, this.tlvLength);
   }
   return this;
 }

@@ -2,8 +2,8 @@ var ouis = {};
 
 module.exports = ouis;
 
-var oui_ieee_8021_private = 0x0080c2;
-var oui_ieee_8023_private = 0x00120f;
+var oui_ieee_8021_private = 32962; // 0x0080C2
+var oui_ieee_8023_private = 4623; // 0x00120f
 
 function init(){
   ouis[oui_ieee_8021_private] = require("./8021_private");

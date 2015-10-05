@@ -12,11 +12,12 @@ TLV.prototype.decode = function (raw_packet, offset) {
   // https://en.wikipedia.org/wiki/Link_Layer_Discovery_Protocol
   this.tlvType = (raw_packet.readUInt16BE(offset, true) & 0xfe00) >> 9;
   this.tlvLength = (raw_packet.readUInt16BE(offset, true) & 0x01ff);
-  var TlvDecoder = types[this.tlvType];
-  if(TlvDecoder == undefined) {
-    this.payload = "Unknown";
+  var TlvDecoderType = types[this.tlvType];
+  if(TlvDecoderType == undefined) {
+		return this;
   } else {
-    this.payload = new TlvDecoder().decode(raw_packet, offset+2);
+		var TlvDecoder = new TlvDecoderType()
+		TlvDecoder.decode(this, raw_packet, offset+2);
   }
   return this;
 }

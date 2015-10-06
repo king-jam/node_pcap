@@ -10,8 +10,15 @@ managementAddress.prototype.decode = function(tlv, raw_packet, offset) {
 	var manSubType = (raw_packet.readUInt16BE(offset, true) & 0xff00) >> 8;
 	offset++;
 
+	switch(manSubType) {
+		case
+	}
+
 	//the management address string length includes one octet for the address subtype
 	tlv.mgmtAddress = raw_packet.toString('utf8', offset, offset+addrStringLength);
+	tlv.mgmtAddress.replace(/\\n|\\u/g,"");
+	tlv.mgtmAddress.replace(/(\S{2})/g,"$1:");
+	tlv.mgmtAddress.replace(/:$/,"");
 	offset += addrStringLength;
 
 	var intSubType = (raw_packet.readUInt16BE(offset, true) & 0xff00) >> 8;

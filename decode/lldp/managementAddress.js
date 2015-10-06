@@ -21,7 +21,7 @@ managementAddress.prototype.decode = function(tlv, raw_packet, offset) {
 	//the management address string length includes one octet for the address subtype
 	tlv.mgmtAddress = raw_packet.toString('utf8', offset, offset+addrStringLength);
 	tlv.mgmtAddress.replace(/\\n|\\u/g,"");
-	tlv.mgtmAddress.replace(/(\S{2})/g,"$1:");
+	tlv.mgmtAddress.replace(/(\S{2})/g,"$1:");
 	tlv.mgmtAddress.replace(/:$/,"");
 	offset += addrStringLength;
 

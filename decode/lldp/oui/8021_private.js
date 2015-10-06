@@ -15,16 +15,19 @@ IEEE_8021_PRIVATE.prototype.decode = function (tlv, raw_packet, offset) {
       tlv.portProtocolVlanId = raw_packet.readUInt16BE(offset+2, true);
       break;
     case 3:
-      tlv.vlanName = undefined;
+      tlv.vlanId = raw_packet.readUInt16BE(offset+1, true);
+      var subLength = raw_packet.readUInt8(offset+3);
+      tlv.vlanName = raw_packet.toString('utf8',offset+2,offset+2+subLength);
       break;
     case 4:
-      tlv.protocolId = undefined;
+      var subLength = raw_packet.readUInt8(offset+1);
+      tlv.protocolId = raw_packet.toString('utf8',offset+2,offset+2+subLength);
       break;
     case 8:
       tlv.congestionNotification = undefined;
       break;
     case 9:
-      tlv.etsConfig = undefined;
+      tlv.etsConfig = raw_packet.readUInt8(offset+1);
       break;
     case 10:
       tlv.etcRec = undefined;

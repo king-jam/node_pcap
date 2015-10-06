@@ -12,7 +12,7 @@ TLV.prototype.decode = function (raw_packet, offset) {
   // https://en.wikipedia.org/wiki/Link_Layer_Discovery_Protocol
   this.tlvType = (raw_packet.readUInt16BE(offset, true) & 0xfe00) >> 9;
   this.tlvLength = (raw_packet.readUInt16BE(offset, true) & 0x01ff);
-  var TlvDecoderType = types[this.tlvType];
+  var TlvDecoderType = types[this.tlvType.toString()];
   if(TlvDecoderType == undefined) {
 		return this;
   } else {

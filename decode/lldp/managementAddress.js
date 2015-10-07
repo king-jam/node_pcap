@@ -1,3 +1,5 @@
+var IPv4Addr = require("../ipv4_addr");
+
 function managementAddress() {
 
 }
@@ -18,11 +20,9 @@ managementAddress.prototype.decode = function(tlv, raw_packet, offset) {
      		console.log("Management Address ID subType is reserved!")
 	}*/
 
-	//the management address string length includes one octet for the address subtype
-	tlv.mgmtAddress = raw_packet.toString('utf8', offset, offset+addrStringLength);
-	tlv.mgmtAddress.replace(/\\n|\\u/g,"");
-	tlv.mgmtAddress.replace(/(\S{2})/g,"$1:");
-	tlv.mgmtAddress.replace(/:$/,"");
+	//note: the management address string length includes one octet for the address subtype
+  //address may also be a MAC address, to be implemented
+  tlv.mgmtAddress = new IPv4Addr().decode(raw_packet, offset).addr;
 	offset += addrStringLength;
 
 	var intSubType = (raw_packet.readUInt16BE(offset, true) & 0xff00) >> 8;

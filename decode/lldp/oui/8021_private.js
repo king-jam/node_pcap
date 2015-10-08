@@ -16,12 +16,12 @@ IEEE_8021_PRIVATE.prototype.decode = function (tlv, raw_packet, offset) {
       break;
     case 3:
       tlv.vlanId = raw_packet.readUInt16BE(offset+1, true);
-      var subLength = raw_packet.readUInt8(offset+3, true);
-      tlv.vlanName = raw_packet.toString('utf8',offset+2,offset+2+subLength);
+      var nameSubLength = raw_packet.readUInt8(offset+3, true);
+      tlv.vlanName = raw_packet.toString("utf8",offset+2,offset+2+nameSubLength);
       break;
     case 4:
-      var subLength = raw_packet.readUInt8(offset+1, true);
-      tlv.protocolId = raw_packet.toString('utf8',offset+2,offset+2+subLength);
+      var idSubLength = raw_packet.readUInt8(offset+1, true);
+      tlv.protocolId = raw_packet.toString("utf8",offset+2,offset+2+idSubLength);
       break;
     case 8:
       tlv.congestionNotification = undefined;
@@ -47,6 +47,6 @@ IEEE_8021_PRIVATE.prototype.decode = function (tlv, raw_packet, offset) {
     default:
       console.log("Unknown Organizational SubType!");
   }
-}
+};
 
 module.exports = IEEE_8021_PRIVATE;

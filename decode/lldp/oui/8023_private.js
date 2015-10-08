@@ -27,6 +27,6 @@ IEEE_8023_PRIVATE.prototype.decode = function (tlv, raw_packet, offset) {
     default:
       console.log("Unknown Organizational SubType!");
   }
-}
+};
 
 module.exports = IEEE_8023_PRIVATE;

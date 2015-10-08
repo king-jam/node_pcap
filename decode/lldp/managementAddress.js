@@ -12,29 +12,28 @@ managementAddress.prototype.decode = function(tlv, raw_packet, offset) {
 	var manSubType = (raw_packet.readUInt16BE(offset, true) & 0xff00) >> 8;
 	offset++;
 
-	/*switch(manSubType) {
+	switch(manSubType) {
 		case 1:
-
+			tlv.mgmtAddress = new IPv4Addr().decode(raw_packet, offset).addr;
 			break;
 		default:
-     		console.log("Management Address ID subType is reserved!")
-	}*/
+     			console.log("Management Address ID subType is reserved!");
+	}
 
 	//note: the management address string length includes one octet for the address subtype
-  //address may also be a MAC address, to be implemented
-  tlv.mgmtAddress = new IPv4Addr().decode(raw_packet, offset).addr;
+	//address may also be a MAC address, to be implemented
 	offset += addrStringLength;
 
-	var intSubType = (raw_packet.readUInt16BE(offset, true) & 0xff00) >> 8;
+	tlv.intSubType = (raw_packet.readUInt16BE(offset, true) & 0xff00) >> 8;
 	offset++;
 
-	var intNumber = raw_packet.toString('utf8', offset, offset+3);
+	tlv.intNumber = raw_packet.toString("utf8", offset, offset+3);
 	offset += 3;
 
-	var oidLength = (raw_packet.readUInt16BE(offset, true) & 0xff00) >> 8;
+	tlv.oidLength = (raw_packet.readUInt16BE(offset, true) & 0xff00) >> 8;
 	offset++;
 
-	tlv.oid = raw_packet.toString('utf8', offset, offset+oidLength);
-}
+	tlv.oid = raw_packet.toString("utf8", offset, offset+tlv.oidLength);
+};
 
 module.exports = managementAddress;

@@ -36,8 +36,8 @@ chassisId.prototype.decode = function(tlv, raw_packet, offset) {
       tlv.local = (raw_packet.readUInt16BE(offset+1, true) & 0xff00) >> 8;
       break;
     default:
-      console.log("Chassis ID subType is reserved!")
+      console.log("Chassis ID subType is reserved!");
   }
-}
+};
 
 module.exports = chassisId;

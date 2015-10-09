@@ -53,6 +53,6 @@ managementAddress.prototype.decode = function(tlv, raw_packet, offset) {
 	var oidLength = (raw_packet.readUInt16BE(offset, true) & 0xff00) >> 8;
 
 	tlv.oid = raw_packet.toString("utf8", offset, offset+oidLength);
-}
+};
 
 module.exports = managementAddress;

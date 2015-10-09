@@ -5,6 +5,7 @@ var SLLAddr = require("./sll_addr");
 var IPv4 = require("./ipv4");
 var IPv6 = require("./ipv6");
 var Arp = require("./arp");
+var LLDP = require("./lldp");
 
 function SLLPacket (emitter) {
     this.emitter = emitter;
@@ -44,7 +45,7 @@ SLLPacket.prototype.decode = function (raw_packet, offset) {
             this.payload = new IPv6(this.emitter).decode(raw_packet, offset);
             break;
         case 0x88cc: // LLDP - http://en.wikipedia.org/wiki/Link_Layer_Discovery_Protocol
-            this.payload = "need to implement LLDP";
+            this.payload = new LLDP(this.emitter).decode(raw_packet, offset);
             break;
         default:
             console.log("node_pcap: SLLPacket() - Don't know how to decode ethertype " + this.ethertype);

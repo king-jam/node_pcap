@@ -9,7 +9,7 @@
   "main": "./pcap",
   "repository": {
     "type": "git",
-    "url": "git://github.com/mranney/node_pcap.git"
+    "url": "git://github.com/king-jam/node_pcap.git"
   },
   "engines": {
     "node": ">=0.10"
